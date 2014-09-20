@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     int calibrationPitch = 0;
     int calibrationYaw = 0;
     int lastYawPosition = 0;
-    int refPosition;
+    int lastYawDifference = 0;
 
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
@@ -69,8 +69,10 @@ int main(int argc, char** argv)
         collector.print(myo);
 
         if(collector.currentExercise == 0 || collector.currentExercise == 1){
-             std::cout << collector.calibrating << std::endl;
-             std::cout << collector.currentExercise << std::endl;
+            //std::cout << collector.calibrating << std::endl;
+            std::cout << collector.currentExercise << std::endl;
+            std::cout << collector.halfReps << std::endl;
+            std::cout << lastYawDifference << std::endl;
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
@@ -87,10 +89,22 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
+            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8)) {
                 myo->vibrate(myo::Myo::vibrationShort);
-            if(collector.workoutStarted && lastYawPosition - calibrationYaw){
-
+            }
+                
+            std::cout << "workoutStarted = " workoutStarted << ", lastYawPosition: " << lastYawPosition << ", lastYawDifference: " << lastYawDifference << endl;
+            if (collector.workoutStarted && ((calibrationYaw - lastYawPosition) * lastYawDifference) < 0 ) {
+                collector.halfReps++;
+                lastYawDifference = calibrationYaw - lastYawPosition;
+                lastYawPosition = calibrationYaw;
+                if (collector.halfReps == 16) {
+                    collector.sets++;
+                    std::cout << "8 reps done! On to set " << collector.sets + 1 << endl;
+                    collector.workoutStarted = false;
+                    lastYawDifference = 0;
+                    collector.halfReps = 0;
+                }
             }
         }
         else if(collector.currentExercise == 2 || collector.currentExercise == 3 || collector.currentExercise == 4){
