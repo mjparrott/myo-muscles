@@ -29,9 +29,9 @@ void DataCollector::onOrientationData(myo::Myo* myo, uint64_t timestamp, const m
 					1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z()));
 
 	// Convert the floating point angles in radians to a scale from 0 to 20.
-	roll_w = static_cast<int>((roll + (float)M_PI)/(M_PI * 2.0f) * 18);
-	pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 18);
-	yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 18);
+	roll_w = static_cast<int>((roll + (float)M_PI)/(M_PI * 2.0f) * 100);
+	pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 100);
+	yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 100);
 }
 
 void DataCollector::onAccelerometerData(myo::Myo* myo, uint64_t timestamp, const myo::Vector3<float>& accel) 
