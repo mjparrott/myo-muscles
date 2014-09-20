@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "Main.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -23,6 +24,8 @@ UI::UI()
 	{
 		cerr << "failed to create display!" << endl;
 	}
+	
+	headerFont = createFont("font.ttf", 20, 0);
 }
 
 UI::~UI()
@@ -42,4 +45,6 @@ void UI::drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int fla
 
 void UI::draw()
 {
+	drawText(headerFont, al_map_rgb(255, 0, 0), 10.0, 10.0, 0, TITLE);
+	al_flip_display();
 }
