@@ -7,6 +7,10 @@
 #include <stdexcept>
 #include <string>
 #include "Exercises.h"
+#include "UI.h"
+#include "Mouse.h"
+
+using namespace std;
 
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
@@ -21,6 +25,7 @@ class DataCollector : public myo::DeviceListener {
 public:
     DataCollector()
     : onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose(), workoutStarted(false), calibrating(false)
+        , reps(0), sets(0), xAccel(0), yAccel(0), zAccel(0)
     {
     }
 
@@ -56,6 +61,13 @@ public:
         yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 18);
     }
 
+    void onAccelerometerData(myo::Myo* myo, uint64_t timestamp, const myo::Vector3<float>& accel) 
+    {
+        xAccel = accel.x();
+        yAccel = accel.y();
+        zAccel = accel.z();
+    }
+
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
     // making a fist, or not making a fist anymore.
     void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
@@ -64,11 +76,14 @@ public:
 
         if (pose == myo::Pose::fist && calibrating != true) {
             //User first uses fist, begin calibrating
+            std::cout << "Being calibration";
             std::cout << "CALIBRATION STARTED";
             calibrating = true;
-        } else if (pose == myo::Pose::fingersSpread) {
+        } else if (pose == myo::Pose::fingersSpread && workoutStarted) {
             //User finger spread, bench press done
+            std::cout << "Ending workout" << std::endl;
             workoutStarted = false;
+            myo->vibrate(myo::Myo::vibrationMedium);
             currentExcercise++;
             calibrating = false;
         } else {
@@ -106,6 +121,7 @@ public:
                   << '[' << std::string(pitch_w, '*') << std::string(18 - pitch_w, ' ') << ']'
                   << '[' << std::string(yaw_w, '*') << std::string(18 - yaw_w, ' ') << ']';*/
         std::cout << "roll: " << roll_w << ", pitch: " << pitch_w << ", yaw: " << yaw_w;
+        //<< ", x: " << xAccel << ", y: " << yAccel << ", z: " << zAccel;
 
         if (onArm) {
             // Print out the currently recognized pose and which arm Myo is being worn on.
@@ -134,6 +150,8 @@ public:
     myo::Pose currentPose;
 
     bool workoutStarted, calibrating;
+    int reps, sets;
+    float xAccel, yAccel, zAccel;
 };
 
 int main(int argc, char** argv)
@@ -171,6 +189,9 @@ int main(int argc, char** argv)
     // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
     // Hub::run() to send events to all registered device listeners.
     hub.addListener(&collector);
+	
+	UI ui;
+	Mouse mouse;
 
     // Finally we enter our main loop.
     while (1) {
@@ -181,10 +202,11 @@ int main(int argc, char** argv)
         // obtained from any events that have occurred.
         collector.print(myo);
 
+
         if(currentExcercise == 0 || currentExcercise == 1){
              std::cout << collector.calibrating << std::endl;
              std::cout << currentExcercise << std::endl;
-             if (collector.calibrating) {
+            if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
                     calibrationCounter++;
@@ -227,6 +249,9 @@ int main(int argc, char** argv)
         else if(currentExcercise == 5 || currentExcercise == 6 || currentExcercise == 7){
             //SHOULDERS
         }
+		ALLEGRO_EVENT ev;
+		mouse.getMouse(&ev);
+		ui.draw();
 
     }
 
