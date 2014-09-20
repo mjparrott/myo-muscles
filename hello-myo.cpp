@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <string>
+#include "Exercises.h"
 
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
