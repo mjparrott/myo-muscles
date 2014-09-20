@@ -13,6 +13,7 @@ class UI
 {
 public:
 	ALLEGRO_DISPLAY *display;
+	ALLEGRO_FONT *headerFont;
 	
 	UI();
 	~UI();
