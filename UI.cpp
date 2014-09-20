@@ -46,6 +46,7 @@ void UI::drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int fla
 
 void UI::draw(const DataCollector &collector)
 {
+	al_clear_to_color(al_map_rgb(0,0,0));
 	drawText(headerFont, al_map_rgb(255, 0, 0), 10.0, 10.0, 0, TITLE);
 	drawText(headerFont, al_map_rgb(255, 0, 0), 200.0, 30.0, 0, exercises[collector.currentExercise]);
 	al_flip_display();
