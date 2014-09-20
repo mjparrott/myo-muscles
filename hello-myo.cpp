@@ -150,7 +150,7 @@ public:
     myo::Pose currentPose;
 
     bool workoutStarted, calibrating;
-    int reps, sets;
+    int halfReps, sets;
     float xAccel, yAccel, zAccel;
 };
 
@@ -159,6 +159,8 @@ int main(int argc, char** argv)
     int calibrationCounter = 0;
     int calibrationPitch = 0;
     int calibrationYaw = 0;
+    int lastYawPosition = 0;
+    int refPosition;
 
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
@@ -204,11 +206,13 @@ int main(int argc, char** argv)
 
 
         if(currentExcercise == 0 || currentExcercise == 1){
-             std::cout << collector.calibrating << std::endl;
-             std::cout << currentExcercise << std::endl;
+            std::cout << collector.calibrating << std::endl;
+            std::cout << currentExcercise << std::endl;
+
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
+                    calibrationYaw = collector.yaw_w;
                     calibrationCounter++;
                     std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
                 } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
@@ -223,6 +227,9 @@ int main(int argc, char** argv)
                 }
             } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
                 myo->vibrate(myo::Myo::vibrationShort);
+            if(collector.workoutStarted && lastYawPosition - calibrationYaw){
+
+            }
         }
         else if(currentExcercise == 2 || currentExcercise == 3 || currentExcercise == 4){
             //Bench press
