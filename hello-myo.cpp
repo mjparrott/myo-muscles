@@ -16,8 +16,6 @@ using namespace std;
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
 
-std::string exercises[] = {"warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
-
 int main(int argc, char** argv)
 {
     int calibrationCounter = 0;
@@ -89,6 +87,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
+<<<<<<< HEAD
             } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8)) {
                 myo->vibrate(myo::Myo::vibrationShort);
             }
@@ -105,6 +104,14 @@ int main(int argc, char** argv)
                     lastYawDifference = 0;
                     collector.halfReps = 0;
                 }
+=======
+            } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5) {
+                myo->vibrate(myo::Myo::vibrationShort);
+				ui.drawText(ui.headerFont, al_map_rgb(255, 0, 0), 10.0, 100.0, 0, "ERROR");
+			}
+            if(collector.workoutStarted && lastYawPosition - calibrationYaw){
+
+>>>>>>> 705d469c0449b2c0db525d72b22219a1344504cb
             }
         }
         else if(collector.currentExercise == 2 || collector.currentExercise == 3 || collector.currentExercise == 4){
@@ -126,15 +133,16 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
+            } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5)
                 myo->vibrate(myo::Myo::vibrationShort);
+                ui.drawText(ui.headerFont, al_map_rgb(255, 0, 0), 10.0, 100.0, 0, "ERROR");
         }
         else if(collector.currentExercise == 5 || collector.currentExercise == 6 || collector.currentExercise == 7){
             //SHOULDERS
         }
 		ALLEGRO_EVENT ev;
 		//mouse.getMouse(&ev);
-		ui.draw();
+		ui.draw(collector);
 
     }
 
