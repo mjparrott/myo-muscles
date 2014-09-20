@@ -72,21 +72,15 @@ public:
 
         if (pose == myo::Pose::fist && calibrating != true) {
             //User first uses fist, begin calibrating
-<<<<<<< HEAD
             std::cout << "Being calibration";
-=======
             std::cout << "CALIBRATION STARTED";
->>>>>>> a0921fbd961c0373b97c2defc48960f966f99ecf
             calibrating = true;
         } else if (pose == myo::Pose::fingersSpread && workoutStarted) {
             //User finger spread, bench press done
             std::cout << "Ending workout" << std::endl;
             workoutStarted = false;
-<<<<<<< HEAD
             myo->vibrate(myo::Myo::vibrationMedium);
-=======
             currentExcercise++;
->>>>>>> a0921fbd961c0373b97c2defc48960f966f99ecf
         } else {
             calibrating = false;
         }
@@ -121,8 +115,8 @@ public:
         /*std::cout << '[' << std::string(roll_w, '*') << std::string(18 - roll_w, ' ') << ']'
                   << '[' << std::string(pitch_w, '*') << std::string(18 - pitch_w, ' ') << ']'
                   << '[' << std::string(yaw_w, '*') << std::string(18 - yaw_w, ' ') << ']';*/
-        std::cout << "roll: " << roll_w << ", pitch: " << pitch_w << ", yaw: " << yaw_w << std::endl
-        << ", x: " << xAccel << ", y: " << yAccel << ", z: " << zAccel;
+        std::cout << "roll: " << roll_w << ", pitch: " << pitch_w << ", yaw: " << yaw_w;
+        //<< ", x: " << xAccel << ", y: " << yAccel << ", z: " << zAccel;
 
         if (onArm) {
             // Print out the currently recognized pose and which arm Myo is being worn on.
@@ -200,29 +194,9 @@ int main(int argc, char** argv)
         // obtained from any events that have occurred.
         collector.print(myo);
 
-<<<<<<< HEAD
-        //Bench press
-        std::cout << collector.calibrating << std::endl;
-        if (collector.calibrating) {
-            if (calibrationCounter == 0) {
-                calibrationPitch = collector.pitch_w;
-                calibrationCounter++;
-                std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
-            } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 20) {
-                std::cout << "Calibration done. Begin workout." << std::endl;
-                myo->vibrate(myo::Myo::vibrationMedium);
-                collector.workoutStarted = true;
-                collector.calibrating = false;
-            } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 20) {
-                std::cout << "count : " << calibrationCounter << std::endl; 
-                calibrationCounter++;
-            }
-        } else if (collector.workoutStarted && collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1)
-            myo->vibrate(myo::Myo::vibrationShort);
-=======
-        if(currentExcercise == 0 || currentExcercise == 1){
-             std::cout << collector.calibrating << std::endl;
-             std::cout << currentExcercise << std::endl;
+        if(currentExcercise == 0 || currentExcercise == 1) {
+            std::cout << collector.calibrating << std::endl;
+            std::cout << currentExcercise << std::endl;
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
@@ -266,7 +240,6 @@ int main(int argc, char** argv)
         }
         else if(currentExcercise == 5 || currentExcercise == 6 || currentExcercise == 7){
             //SHOULDERS
->>>>>>> a0921fbd961c0373b97c2defc48960f966f99ecf
         }
 
     }
