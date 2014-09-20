@@ -37,7 +37,7 @@ ALLEGRO_FONT *UI::createFont(std::string file, int size, int n)
 
 void UI::drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int flags, string text)
 {
-	al_draw_text(font, c, x, y flags, text.c_str()));
+	al_draw_text(font, c, x, y, flags, text.c_str());
 }
 
 void UI::draw()

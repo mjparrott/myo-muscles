@@ -17,7 +17,7 @@ public:
 	UI();
 	~UI();
 	ALLEGRO_FONT *createFont(std::string file, int size, int n);
-	void drawText();
+	void drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int flags, std::string text);
 	void draw();
 };
 
