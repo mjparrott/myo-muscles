@@ -11,6 +11,9 @@
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
 
+std::string excercises[] = {"warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
+int currentExcercise = 0;
+
 // Classes that inherit from myo::DeviceListener can be used to receive events from Myo devices. DeviceListener
 // provides several virtual functions for handling different kinds of events. If you do not override an event, the
 // default behavior is to do nothing.
@@ -61,11 +64,12 @@ public:
 
         if (pose == myo::Pose::fist && calibrating != true) {
             //User first uses fist, begin calibrating
-            std::cout << "ASFAFASFASFASDFASFASDFAFDS";
+            std::cout << "CALIBRATION STARTED";
             calibrating = true;
         } else if (pose == myo::Pose::fingersSpread) {
             //User finger spread, bench press done
             workoutStarted = false;
+            currentExcercise++;
         } else {
             calibrating = false;
         }
@@ -135,6 +139,7 @@ int main(int argc, char** argv)
 {
     int calibrationCounter = 0;
     int calibrationPitch = 0;
+    int calibrationYaw = 0;
 
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
@@ -175,25 +180,55 @@ int main(int argc, char** argv)
         // obtained from any events that have occurred.
         collector.print(myo);
 
-        //Bench press
-        std::cout << collector.calibrating << std::endl;
-        if (collector.calibrating) {
-            if (calibrationCounter == 0) {
-                calibrationPitch = collector.pitch_w;
-                calibrationCounter++;
-                std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
-            } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
-                std::cout << "Calibration done. Begin workout." << std::endl;
-                myo->vibrate(myo::Myo::vibrationMedium);
-                collector.workoutStarted = true;
-                collector.calibrating = false;
-            } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 5) {
-                std::cout << "count : " << calibrationCounter << std::endl; 
-                calibrationCounter++;
-            }
-        } else if (collector.workoutStarted && collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1)
-            myo->vibrate(myo::Myo::vibrationShort);
+        if(currentExcercise == 0 || currentExcercise == 1){
+             std::cout << collector.calibrating << std::endl;
+             std::cout << currentExcercise << std::endl;
+            if (collector.calibrating) {
+                if (calibrationCounter == 0) {
+                    calibrationPitch = collector.pitch_w;
+                    // calibrationYaw = collector.yaw_w;
+                    calibrationCounter++;
+                    std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
+                } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
+                    std::cout << "Calibration done. Begin workout." << std::endl;
+                    myo->vibrate(myo::Myo::vibrationMedium);
+                    collector.workoutStarted = true;
+                    collector.calibrating = false;
+                    calibrationCounter = 0;
+                } else if (calibrationYaw == collector.pitch_w && calibrationCounter < 5) {
+                    std::cout << "count : " << calibrationCounter << std::endl; 
+                    calibrationCounter++;
+                }
+            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1))
+                myo->vibrate(myo::Myo::vibrationShort);
         }
+        else if(currentExcercise == 2 || currentExcercise == 3 || currentExcercise == 4){
+            //Bench press
+            std::cout << collector.calibrating << std::endl;
+            std::cout << currentExcercise << std::endl;
+            if (collector.calibrating) {
+                if (calibrationCounter == 0) {
+                    calibrationPitch = collector.pitch_w;
+                    calibrationCounter++;
+                    std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
+                } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
+                    std::cout << "Calibration done. Begin workout." << std::endl;
+                    myo->vibrate(myo::Myo::vibrationMedium);
+                    collector.workoutStarted = true;
+                    collector.calibrating = false;
+                    calibrationCounter = 0;
+                } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 5) {
+                    std::cout << "count : " << calibrationCounter << std::endl; 
+                    calibrationCounter++;
+                }
+            } else if (collector.workoutStarted && collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1)
+                myo->vibrate(myo::Myo::vibrationShort);
+        }
+        else if(currentExcercise == 5 || currentExcercise == 6 || currentExcercise == 7){
+            //SHOULDERS
+        }
+
+    }
 
     // If a standard exception occurred, we print out its message and exit.
     } catch (const std::exception& e) {
