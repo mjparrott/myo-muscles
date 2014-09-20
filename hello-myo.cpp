@@ -16,7 +16,7 @@
 class DataCollector : public myo::DeviceListener {
 public:
     DataCollector()
-    : onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose()
+    : onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose(), workoutStarted(false), calibrating(false)
     {
     }
 
@@ -58,9 +58,14 @@ public:
     {
         currentPose = pose;
 
-        // Vibrate the Myo whenever we've detected that the user has made a fist.
-        if (pose == myo::Pose::fist) {
-            myo->vibrate(myo::Myo::vibrationMedium);
+        if (pose == myo::Pose::fist && calibrating != true) {
+            //User first uses fist, begin calibrating
+            calibrating == true;
+        } else if (pose == myo::Pose::fingersSpread) {
+            //User finger spread, bench press done
+            workoutStarted = false;
+        } else {
+            calibrating = false;
         }
     }
 
@@ -84,15 +89,16 @@ public:
     // For this example, the functions overridden above are sufficient.
 
     // We define this function to print the current values that were updated by the on...() functions above.
-    void print()
+    void print(myo::Myo* myo)
     {
         // Clear the current line
         std::cout << '\r';
 
         // Print out the orientation. Orientation data is always available, even if no arm is currently recognized.
-        std::cout << '[' << std::string(roll_w, '*') << std::string(18 - roll_w, ' ') << ']'
+        /*std::cout << '[' << std::string(roll_w, '*') << std::string(18 - roll_w, ' ') << ']'
                   << '[' << std::string(pitch_w, '*') << std::string(18 - pitch_w, ' ') << ']'
-                  << '[' << std::string(yaw_w, '*') << std::string(18 - yaw_w, ' ') << ']';
+                  << '[' << std::string(yaw_w, '*') << std::string(18 - yaw_w, ' ') << ']';*/
+        std::cout << "roll: " << roll_w << ", pitch: " << pitch_w << ", yaw: " << yaw_w;
 
         if (onArm) {
             // Print out the currently recognized pose and which arm Myo is being worn on.
@@ -119,10 +125,15 @@ public:
     // These values are set by onOrientationData() and onPose() above.
     int roll_w, pitch_w, yaw_w;
     myo::Pose currentPose;
+
+    bool workoutStarted, calibrating;
 };
 
 int main(int argc, char** argv)
 {
+    int calibrationCounter = 0;
+    int calibrationPitch = 0;
+
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
 
@@ -160,8 +171,26 @@ int main(int argc, char** argv)
         hub.run(1000/20);
         // After processing events, we call the print() member function we defined above to print out the values we've
         // obtained from any events that have occurred.
-        collector.print();
-    }
+        collector.print(myo);
+
+        //Bench press
+        if (collector.calibrating) {
+            if (calibrationCounter == 0) {
+                std::cout << "Start calibrating..." << std::endl;
+                calibrationPitch = collector.pitch_w;
+                calibrationCounter++;
+            } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 2) {
+                std::cout << "Calibration done. Begin workout." << std::endl;
+                myo->vibrate(myo::Myo::vibrationMedium);
+                collector.workoutStarted = true;
+                collector.calibrating = false;
+            } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 2) {
+                std::cout << "count : " << calibrationCounter << std::endl; 
+                calibrationCounter++;
+            }
+        } else if (collector.workoutStarted && collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1)
+            myo->vibrate(myo::Myo::vibrationShort);
+        }
 
     // If a standard exception occurred, we print out its message and exit.
     } catch (const std::exception& e) {
