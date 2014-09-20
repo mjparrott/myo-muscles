@@ -236,8 +236,6 @@ int main(int argc, char** argv)
         }
 		ALLEGRO_EVENT ev;
 		mouse.getMouse(&ev);
-		cerr << ev.type << endl;
-		cerr << ALLEGRO_EVENT_DISPLAY_CLOSE << endl;
 		ui.draw();
 
     }
