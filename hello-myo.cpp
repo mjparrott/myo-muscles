@@ -61,7 +61,8 @@ public:
 
         if (pose == myo::Pose::fist && calibrating != true) {
             //User first uses fist, begin calibrating
-            calibrating == true;
+            std::cout << "ASFAFASFASFASDFASFASDFAFDS";
+            calibrating = true;
         } else if (pose == myo::Pose::fingersSpread) {
             //User finger spread, bench press done
             workoutStarted = false;
@@ -175,17 +176,18 @@ int main(int argc, char** argv)
         collector.print(myo);
 
         //Bench press
+        std::cout << collector.calibrating << std::endl;
         if (collector.calibrating) {
             if (calibrationCounter == 0) {
-                std::cout << "Start calibrating..." << std::endl;
                 calibrationPitch = collector.pitch_w;
                 calibrationCounter++;
-            } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 2) {
+                std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
+            } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
                 std::cout << "Calibration done. Begin workout." << std::endl;
                 myo->vibrate(myo::Myo::vibrationMedium);
                 collector.workoutStarted = true;
                 collector.calibrating = false;
-            } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 2) {
+            } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 5) {
                 std::cout << "count : " << calibrationCounter << std::endl; 
                 calibrationCounter++;
             }
