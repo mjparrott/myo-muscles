@@ -85,8 +85,10 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
+            } else if (collector.workoutStarted && (collector.pitch_w - calibrationPitch) > 0.8) {
                 myo->vibrate(myo::Myo::vibrationShort);
+				ui.drawText(ui.headerFont, al_map_rgb(255, 0, 0), 10.0, 100.0, 0, "ERROR");
+			}
             if(collector.workoutStarted && lastYawPosition - calibrationYaw){
 
             }
