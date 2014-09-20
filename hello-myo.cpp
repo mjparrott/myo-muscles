@@ -9,12 +9,14 @@
 #include "Exercises.h"
 #include "UI.h"
 #include "Mouse.h"
+#include "DataCollector.h"
 
 using namespace std;
 
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
 
+<<<<<<< HEAD
 std::string excercises[] = {"warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
 int currentExcercise = 0;
 
@@ -153,6 +155,9 @@ public:
     int halfReps, sets;
     float xAccel, yAccel, zAccel;
 };
+=======
+std::string exercises[] = {"warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
+>>>>>>> f699cdd991001240d19381ccf4bcb702d45d6ca7
 
 int main(int argc, char** argv)
 {
@@ -205,10 +210,16 @@ int main(int argc, char** argv)
         collector.print(myo);
 
 
+<<<<<<< HEAD
         if(currentExcercise == 0 || currentExcercise == 1){
             std::cout << collector.calibrating << std::endl;
             std::cout << currentExcercise << std::endl;
 
+=======
+        if(collector.currentExercise == 0 || collector.currentExercise == 1){
+             std::cout << collector.calibrating << std::endl;
+             std::cout << collector.currentExercise << std::endl;
+>>>>>>> f699cdd991001240d19381ccf4bcb702d45d6ca7
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
@@ -231,10 +242,10 @@ int main(int argc, char** argv)
 
             }
         }
-        else if(currentExcercise == 2 || currentExcercise == 3 || currentExcercise == 4){
+        else if(collector.currentExercise == 2 || collector.currentExercise == 3 || collector.currentExercise == 4){
             //Bench press
             std::cout << collector.calibrating << std::endl;
-            std::cout << currentExcercise << std::endl;
+            std::cout << collector.currentExercise << std::endl;
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
@@ -253,11 +264,11 @@ int main(int argc, char** argv)
             } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
                 myo->vibrate(myo::Myo::vibrationShort);
         }
-        else if(currentExcercise == 5 || currentExcercise == 6 || currentExcercise == 7){
+        else if(collector.currentExercise == 5 || collector.currentExercise == 6 || collector.currentExercise == 7){
             //SHOULDERS
         }
 		ALLEGRO_EVENT ev;
-		mouse.getMouse(&ev);
+		//mouse.getMouse(&ev);
 		ui.draw();
 
     }
