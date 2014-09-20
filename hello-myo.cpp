@@ -7,6 +7,10 @@
 #include <stdexcept>
 #include <string>
 #include "Exercises.h"
+#include "UI.h"
+#include "Mouse.h"
+
+using namespace std;
 
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
@@ -165,6 +169,9 @@ int main(int argc, char** argv)
     // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
     // Hub::run() to send events to all registered device listeners.
     hub.addListener(&collector);
+	
+	UI ui;
+	Mouse mouse;
 
     // Finally we enter our main loop.
     while (1) {
@@ -193,6 +200,12 @@ int main(int argc, char** argv)
             }
         } else if (collector.workoutStarted && collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1)
             myo->vibrate(myo::Myo::vibrationShort);
+		
+		ALLEGRO_EVENT ev;
+		mouse.getMouse(&ev);
+		cerr << ev.type << endl;
+		cerr << ALLEGRO_EVENT_DISPLAY_CLOSE << endl;
+		ui.draw();
         }
 
     // If a standard exception occurred, we print out its message and exit.
