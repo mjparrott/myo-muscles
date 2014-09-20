@@ -87,7 +87,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
+            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 5 || collector.pitch_w < calibrationPitch - 5))
                 myo->vibrate(myo::Myo::vibrationShort);
             if(collector.workoutStarted && lastYawPosition - calibrationYaw){
 
@@ -112,7 +112,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
+            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 5 || collector.pitch_w < calibrationPitch - 5))
                 myo->vibrate(myo::Myo::vibrationShort);
         }
         else if(collector.currentExercise == 5 || collector.currentExercise == 6 || collector.currentExercise == 7){
