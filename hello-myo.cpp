@@ -16,8 +16,6 @@ using namespace std;
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
 
-std::string exercises[] = {"warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
-
 int main(int argc, char** argv)
 {
     int calibrationCounter = 0;
@@ -120,7 +118,7 @@ int main(int argc, char** argv)
         }
 		ALLEGRO_EVENT ev;
 		//mouse.getMouse(&ev);
-		ui.draw();
+		ui.draw(collector);
 
     }
 

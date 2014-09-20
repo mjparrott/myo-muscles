@@ -5,7 +5,7 @@ Exercise.o: Exercise.cpp Exercise.h
 	g++ Exercise.cpp -c 
 
 UI.o: UI.cpp UI.h
-	g++ UI.cpp -c
+	g++ UI.cpp -c -Iinclude
 
 Mouse.o: Mouse.cpp Mouse.h
 	g++ Mouse.cpp -c

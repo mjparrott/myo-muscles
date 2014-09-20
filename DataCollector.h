@@ -5,7 +5,7 @@
 
 // Classes that inherit from myo::DeviceListener can be used to receive events from Myo devices. DeviceListener
 // provides several virtual functions for handling different kinds of events. If you do not override an event, the
-// default behavior is to do nothing.
+// default behaviour is to do nothing.
 class DataCollector : public myo::DeviceListener {
 public:
     // Classes that inherit from myo::DeviceListener can be used to receive events from Myo devices. DeviceListener

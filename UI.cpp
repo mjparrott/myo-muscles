@@ -1,5 +1,6 @@
 #include "UI.h"
 #include "Main.h"
+#include "DataCollector.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -43,8 +44,9 @@ void UI::drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int fla
 	al_draw_text(font, c, x, y, flags, text.c_str());
 }
 
-void UI::draw()
+void UI::draw(const DataCollector &collector)
 {
 	drawText(headerFont, al_map_rgb(255, 0, 0), 10.0, 10.0, 0, TITLE);
+	drawText(headerFont, al_map_rgb(255, 0, 0), 200.0, 30.0, 0, exercises[collector.currentExercise]);
 	al_flip_display();
 }
