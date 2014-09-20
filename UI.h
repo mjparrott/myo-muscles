@@ -5,6 +5,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <string>
+#include "DataCollector.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -19,7 +20,7 @@ public:
 	~UI();
 	ALLEGRO_FONT *createFont(std::string file, int size, int n);
 	void drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int flags, std::string text);
-	void draw();
+	void draw(const DataCollector &collector);
 };
 
 #endif
