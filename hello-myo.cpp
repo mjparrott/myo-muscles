@@ -85,8 +85,9 @@ public:
             workoutStarted = false;
             myo->vibrate(myo::Myo::vibrationMedium);
             currentExcercise++;
-        } else {
             calibrating = false;
+        } else {
+            
         }
     }
 
@@ -201,13 +202,13 @@ int main(int argc, char** argv)
         // obtained from any events that have occurred.
         collector.print(myo);
 
-        if(currentExcercise == 0 || currentExcercise == 1) {
-            std::cout << collector.calibrating << std::endl;
-            std::cout << currentExcercise << std::endl;
+
+        if(currentExcercise == 0 || currentExcercise == 1){
+             std::cout << collector.calibrating << std::endl;
+             std::cout << currentExcercise << std::endl;
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
-                    // calibrationYaw = collector.yaw_w;
                     calibrationCounter++;
                     std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
                 } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
@@ -216,11 +217,11 @@ int main(int argc, char** argv)
                     collector.workoutStarted = true;
                     collector.calibrating = false;
                     calibrationCounter = 0;
-                } else if (calibrationYaw == collector.pitch_w && calibrationCounter < 5) {
+                } else if (calibrationPitch == collector.pitch_w && calibrationCounter < 5) {
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1))
+            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
                 myo->vibrate(myo::Myo::vibrationShort);
         }
         else if(currentExcercise == 2 || currentExcercise == 3 || currentExcercise == 4){
@@ -242,7 +243,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && collector.pitch_w > calibrationPitch + 1 || collector.pitch_w < calibrationPitch - 1)
+            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 0.8 || collector.pitch_w < calibrationPitch - 0.8))
                 myo->vibrate(myo::Myo::vibrationShort);
         }
         else if(currentExcercise == 5 || currentExcercise == 6 || currentExcercise == 7){
@@ -250,8 +251,6 @@ int main(int argc, char** argv)
         }
 		ALLEGRO_EVENT ev;
 		mouse.getMouse(&ev);
-		cerr << ev.type << endl;
-		cerr << ALLEGRO_EVENT_DISPLAY_CLOSE << endl;
 		ui.draw();
 
     }
