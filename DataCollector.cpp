@@ -57,6 +57,8 @@ void DataCollector::onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
 		myo->vibrate(myo::Myo::vibrationMedium);
 		currentExercise++;
 		calibrating = false;
+		sets = 0;
+		halfReps = 0;
 	} else {
 		
 	}
