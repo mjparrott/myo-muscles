@@ -6,6 +6,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -61,8 +62,14 @@ void UI::draw(const DataCollector &collector)
 	
 	drawText(headerFont, al_map_rgb(255, 0, 0), SCREEN_WIDTH / 2, 10.0, ALLEGRO_ALIGN_CENTRE, TITLE);
 	drawText(headerFont, al_map_rgb(255, 0, 0), 200.0, 30.0, 0, exercises[collector.currentExercise]);
+	stringstream ss;
+	ss << "Sets: " << collector.sets;
+	drawText(headerFont, al_map_rgb(255, 0, 0), 50.0, 100.0, 0, ss.str());
+	ss.str(""); ss.clear();
+	ss << "Reps: " << collector.halfReps;
+	drawText(headerFont, al_map_rgb(255, 0, 0), 50.0, 125.0, 0, ss.str());
 	if(collector.showError > 0) {
-		drawText(headerFont, al_map_rgb(255, 0, 0), 10.0, 100.0, 0, "ERROR");
+		drawText(headerFont, al_map_rgb(255, 0, 0), 10.0, 200.0, 0, "ERROR");
 	}
 	al_flip_display();
 }
