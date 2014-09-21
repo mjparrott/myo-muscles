@@ -69,7 +69,7 @@ int main(int argc, char** argv)
 		// Update graphics values
 		collector.update();
 
-        if(collector.currentExercise == 0 || collector.currentExercise == 1){
+        if(collector.currentExercise == 0){
             //std::cout << collector.calibrating << std::endl;
             std::cout << collector.currentExercise << std::endl;
             std::cout << collector.halfReps << std::endl;
@@ -101,9 +101,10 @@ int main(int argc, char** argv)
                 collector.halfReps++;
                 if (collector.halfReps == 16) {
                     collector.sets++;
-                    if (collector.sets == 3) {
+                    if (collector.sets == 2) {
                         std::cout << "Workout done! Great job!" << std::endl;
-                        collector.workoutStarted = false;    
+                        collector.workoutStarted = false;   
+                        collector.sets = 0; 
                     } else {
                         std::cout << "8 reps done! On to set " << collector.sets + 1 << endl;
                     }
@@ -114,7 +115,7 @@ int main(int argc, char** argv)
             lastYawDifference = collector.yaw_w - lastYawPosition != 0 ? (collector.yaw_w - lastYawPosition) : lastYawDifference;
             lastYawPosition = collector.yaw_w;
         }
-        else if(collector.currentExercise == 2 || collector.currentExercise == 3 || collector.currentExercise == 4) {
+        else if(collector.currentExercise == 1) {
             //Bench press
             std::cout << collector.calibrating << std::endl;
             std::cout << collector.currentExercise << std::endl;
@@ -138,7 +139,7 @@ int main(int argc, char** argv)
                 collector.showError = 20;
 			}
         }
-        else if(collector.currentExercise == 5 || collector.currentExercise == 6 || collector.currentExercise == 7){
+        else if(collector.currentExercise == 2){
             //SHOULDERS
         }
 		ALLEGRO_EVENT ev;
