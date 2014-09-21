@@ -99,7 +99,7 @@ void UI::drawBackground()
 
 void UI::drawExercise(int exerciseNum, bool started)
 {
-	//if(!started) return;
+	if(!started) return;
 	if(exerciseNum == 0)
 	{
 		al_draw_bitmap(warmupPic, 100, 200, ALLEGRO_ALIGN_CENTRE);
