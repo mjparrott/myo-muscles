@@ -97,7 +97,7 @@ void DataCollector::print(myo::Myo* myo)
 				  << '[' << poseString << std::string(14 - poseString.size(), ' ') << ']';
 	} else {
 		// Print out a placeholder for the arm and pose when Myo doesn't currently know which arm it's on.
-		std::cout << "[?]" << '[' << std::string(14, ' ') << ']';
+		std::cout << "[?]" << '[' << std::string(14, ' ') << ']' << std::endl;
 	}
 
 	std::cout << std::flush;

@@ -21,8 +21,9 @@ int main(int argc, char** argv)
     int calibrationCounter = 0;
     int calibrationPitch = 0;
     int calibrationYaw = 0;
+    int calibrationRoll = 0;
     int lastYawPosition = 0;
-    int refPosition;
+    int lastYawDifference = 0;
 
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
@@ -69,12 +70,15 @@ int main(int argc, char** argv)
 		collector.update();
 
         if(collector.currentExercise == 0 || collector.currentExercise == 1){
-             std::cout << collector.calibrating << std::endl;
-             std::cout << collector.currentExercise << std::endl;
+            //std::cout << collector.calibrating << std::endl;
+            std::cout << collector.currentExercise << std::endl;
+            std::cout << collector.halfReps << std::endl;
+            std::cout << lastYawDifference << std::endl;
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
                     calibrationYaw = collector.yaw_w;
+                    calibrationRoll = collector.roll_w;
                     calibrationCounter++;
                     std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
                 } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
@@ -87,15 +91,30 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5) {
+            } else if (collector.workoutStarted && (abs(collector.pitch_w - calibrationPitch) > 5 || collector.roll_w - calibrationRoll > 50)) {
                 myo->vibrate(myo::Myo::vibrationShort);
-				collector.showError = 20;
-			}
-            if(collector.workoutStarted && lastYawPosition - calibrationYaw){
-
+                collector.showError = 20;
             }
+                
+            std::cout << "workoutStarted = " << collector.workoutStarted << ", lastYawPosition: " << lastYawPosition << ", lastYawDifference: " << lastYawDifference << endl;
+            if (collector.workoutStarted && ((collector.yaw_w - lastYawPosition) * lastYawDifference) < 0 ) {
+                collector.halfReps++;
+                if (collector.halfReps == 16) {
+                    collector.sets++;
+                    if (collector.sets == 3) {
+                        std::cout << "Workout done! Great job!" << std::endl;
+                        collector.workoutStarted = false;    
+                    } else {
+                        std::cout << "8 reps done! On to set " << collector.sets + 1 << endl;
+                    }
+                    lastYawDifference = 0;
+                    collector.halfReps = 0;
+                }
+            }
+            lastYawDifference = collector.yaw_w - lastYawPosition != 0 ? (collector.yaw_w - lastYawPosition) : lastYawDifference;
+            lastYawPosition = collector.yaw_w;
         }
-        else if(collector.currentExercise == 2 || collector.currentExercise == 3 || collector.currentExercise == 4){
+        else if(collector.currentExercise == 2 || collector.currentExercise == 3 || collector.currentExercise == 4) {
             //Bench press
             std::cout << collector.calibrating << std::endl;
             std::cout << collector.currentExercise << std::endl;
@@ -116,7 +135,7 @@ int main(int argc, char** argv)
                 }
             } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5) {
                 myo->vibrate(myo::Myo::vibrationShort);
-				collector.showError = 20;
+                collector.showError = 20;
 			}
         }
         else if(collector.currentExercise == 5 || collector.currentExercise == 6 || collector.currentExercise == 7){
