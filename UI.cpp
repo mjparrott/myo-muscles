@@ -29,7 +29,8 @@ UI::UI()
 		cerr << "failed to create display!" << endl;
 	}
 	
-	headerFont = createFont(MAIN_FONT, 20, 0);
+	headerFont = createFont(MAIN_FONT, 50, 0);
+	infoFont = createFont(MAIN_FONT, 20, 0);
 	background = al_load_bitmap(MAIN_BACKGROUND.c_str());
 }
 
@@ -37,6 +38,7 @@ UI::~UI()
 {
 	al_destroy_bitmap(background);
 	al_destroy_font(headerFont);
+	al_destroy_font(infoFont);
 	al_destroy_display(display);
 }
 
@@ -61,15 +63,15 @@ void UI::draw(const DataCollector &collector)
 	al_draw_bitmap(background, 700, 300, 0);
 	
 	drawText(headerFont, al_map_rgb(255, 0, 0), SCREEN_WIDTH / 2, 10.0, ALLEGRO_ALIGN_CENTRE, TITLE);
-	drawText(headerFont, al_map_rgb(255, 0, 0), 200.0, 30.0, 0, exercises[collector.currentExercise]);
+	drawText(infoFont, al_map_rgb(255, 0, 0), 40.0, 60.0, 0, exercises[collector.currentExercise]);
 	stringstream ss;
 	ss << "Sets: " << collector.sets;
-	drawText(headerFont, al_map_rgb(255, 0, 0), 50.0, 100.0, 0, ss.str());
+	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 100.0, 0, ss.str());
 	ss.str(""); ss.clear();
-	ss << "Reps: " << collector.halfReps;
-	drawText(headerFont, al_map_rgb(255, 0, 0), 50.0, 125.0, 0, ss.str());
+	ss << "Reps: " << collector.halfReps / 2;
+	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 130.0, 0, ss.str());
 	if(collector.showError > 0) {
-		drawText(headerFont, al_map_rgb(255, 0, 0), 10.0, 200.0, 0, "ERROR");
+		drawText(infoFont, al_map_rgb(255, 0, 0), 10.0, 200.0, 0, "ERROR");
 	}
 	al_flip_display();
 }

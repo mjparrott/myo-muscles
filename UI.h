@@ -15,6 +15,7 @@ class UI
 public:
 	ALLEGRO_DISPLAY *display;
 	ALLEGRO_FONT *headerFont;
+	ALLEGRO_FONT *infoFont;
 	ALLEGRO_BITMAP *background;
 	
 	UI();
