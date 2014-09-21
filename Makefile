@@ -4,11 +4,11 @@ all: Exercise.o UI.o Mouse.o DataCollector.o DataCollector.h Exercises.h Exercis
 Exercise.o: Exercise.cpp Exercise.h
 	g++ Exercise.cpp -c 
 
-UI.o: UI.cpp UI.h
+UI.o: UI.cpp UI.h Main.h
 	g++ UI.cpp -c -Iinclude
 
-Mouse.o: Mouse.cpp Mouse.h
+Mouse.o: Mouse.cpp Mouse.h Main.h
 	g++ Mouse.cpp -c
 
-DataCollector.o: DataCollector.cpp DataCollector.h
+DataCollector.o: DataCollector.cpp DataCollector.h Main.h
 	g++ DataCollector.cpp -c -Iinclude

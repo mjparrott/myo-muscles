@@ -5,7 +5,6 @@
 #include "DataCollector.h"
 #include "Main.h"
 
-
 void DataCollector::onUnpair(myo::Myo* myo, uint64_t timestamp)
 {
 	// We've lost a Myo.
