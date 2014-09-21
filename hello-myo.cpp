@@ -91,7 +91,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (abs(collector.pitch_w - calibrationPitch) > 5 || collector.roll_w - calibrationRoll > 50)) {
+            } else if (collector.workoutStarted && (abs(collector.pitch_w - calibrationPitch) > 5 || abs(collector.roll_w - calibrationRoll) > 5)) {
                 myo->vibrate(myo::Myo::vibrationShort);
                 collector.showError = 20;
             }
