@@ -102,3 +102,10 @@ void DataCollector::print(myo::Myo* myo)
 
 	std::cout << std::flush;
 }
+
+void DataCollector::update()
+{
+	if(showError > 0) {
+		showError--;
+	}
+}

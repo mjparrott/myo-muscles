@@ -44,6 +44,9 @@ public:
 
     // We define this function to print the current values that were updated by the on...() functions above.
     void print(myo::Myo* myo);
+	
+	// Update function for graphics loop
+	void update();
 
     // These values are set by onArmRecognized() and onArmLost() above.
     bool onArm;
@@ -57,6 +60,8 @@ public:
     int reps, sets;
     float xAccel, yAccel, zAccel;
 	int currentExercise;
+	// Frames to keep error message on screen
+	int showError;
 };
 
 #endif

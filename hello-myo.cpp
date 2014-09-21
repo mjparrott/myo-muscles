@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
     // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
     // publishing your application. The Hub provides access to one or more Myos.
-    myo::Hub hub("com.example.hello-myo");
+    myo::Hub hub("com.myo-muscles.myo-muscles");
 
     std::cout << "Attempting to find a Myo..." << std::endl;
 
@@ -65,6 +65,8 @@ int main(int argc, char** argv)
         // After processing events, we call the print() member function we defined above to print out the values we've
         // obtained from any events that have occurred.
         collector.print(myo);
+		// Update graphics values
+		collector.update();
 
         if(collector.currentExercise == 0 || collector.currentExercise == 1){
              std::cout << collector.calibrating << std::endl;
@@ -87,7 +89,7 @@ int main(int argc, char** argv)
                 }
             } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5) {
                 myo->vibrate(myo::Myo::vibrationShort);
-				ui.drawText(ui.headerFont, al_map_rgb(255, 0, 0), 10.0, 100.0, 0, "ERROR");
+				collector.showError = 20;
 			}
             if(collector.workoutStarted && lastYawPosition - calibrationYaw){
 
@@ -112,8 +114,10 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (collector.pitch_w > calibrationPitch + 5 || collector.pitch_w < calibrationPitch - 5))
+            } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5) {
                 myo->vibrate(myo::Myo::vibrationShort);
+				collector.showError = 20;
+			}
         }
         else if(collector.currentExercise == 5 || collector.currentExercise == 6 || collector.currentExercise == 7){
             //SHOULDERS
@@ -131,4 +135,6 @@ int main(int argc, char** argv)
         std::cin.ignore();
         return 1;
     }
+	
+	return 0;
 }

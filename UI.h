@@ -15,12 +15,16 @@ class UI
 public:
 	ALLEGRO_DISPLAY *display;
 	ALLEGRO_FONT *headerFont;
+	ALLEGRO_BITMAP *background;
 	
 	UI();
 	~UI();
 	ALLEGRO_FONT *createFont(std::string file, int size, int n);
 	void drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int flags, std::string text);
 	void draw(const DataCollector &collector);
+
+private:
+	void drawBackground();
 };
 
 #endif
