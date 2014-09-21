@@ -3,6 +3,7 @@
 #include <cmath>
 #include <myo/myo.hpp>
 #include "DataCollector.h"
+#include "Main.h"
 
 
 void DataCollector::onUnpair(myo::Myo* myo, uint64_t timestamp)
@@ -59,11 +60,11 @@ void DataCollector::onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
 		sets++;
 		if(sets == 3){
 			sets = 0;
-			currentExercise++;
+			nextExercise();
 		}
 		halfReps = 0;
-	} else {
-		
+	} else if (pose == myo::Pose::waveOut && !workoutStarted) {
+		nextExercise();
 	}
 }
 
@@ -113,4 +114,9 @@ void DataCollector::update()
 	if(showError > 0) {
 		showError--;
 	}
+}
+
+void DataCollector::nextExercise()
+{
+	currentExercise = (currentExercise + 1) == EXERCISE_COUNT ? 0 : currentExercise++;
 }

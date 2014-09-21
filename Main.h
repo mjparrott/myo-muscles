@@ -10,5 +10,6 @@ std::string exercises[] = {"warmup","bench","shoulder"};
 // Resources
 const std::string MAIN_FONT = "resources/fonts/font.ttf";
 const std::string MAIN_BACKGROUND = "resources/images/background.bmp";
+const int EXERCISE_COUNT = 3;
 
 #endif

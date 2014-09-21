@@ -48,6 +48,9 @@ public:
 	// Update function for graphics loop
 	void update();
 
+    // Update currentExercise value to next available value. Goes to 0 if it has reached the end of the queue.
+    void nextExercise();
+
     // These values are set by onArmRecognized() and onArmLost() above.
     bool onArm;
     myo::Arm whichArm;
