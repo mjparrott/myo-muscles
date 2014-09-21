@@ -20,6 +20,8 @@ int main(int argc, char** argv)
 {
     int calibrationCounter = 0;
     int calibrationPitch = 0;
+    int calibrationYaw = 0;
+    int calibrationRoll = 0;
     int lastYawPosition = 0;
     int lastYawDifference = 0;
 
@@ -73,7 +75,8 @@ int main(int argc, char** argv)
             if (collector.calibrating) {
                 if (calibrationCounter == 0) {
                     calibrationPitch = collector.pitch_w;
-                    //calibrationYaw = collector.yaw_w;
+                    calibrationYaw = collector.yaw_w;
+                    calibrationRoll = collector.roll_w;
                     calibrationCounter++;
                     std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
                 } else if (calibrationPitch == collector.pitch_w && calibrationCounter == 5) {
@@ -86,7 +89,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && abs(collector.pitch_w - calibrationPitch) > 5) {
+            } else if (collector.workoutStarted && (abs(collector.pitch_w - calibrationPitch) > 5 || collector.roll_w - calibrationRoll > 50)) {
                 myo->vibrate(myo::Myo::vibrationShort);
                 ui.drawText(ui.headerFont, al_map_rgb(255, 0, 0), 10.0, 100.0, 0, "ERROR");
             }
