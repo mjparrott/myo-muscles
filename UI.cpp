@@ -32,11 +32,17 @@ UI::UI()
 	headerFont = createFont(MAIN_FONT, 50, 0);
 	infoFont = createFont(MAIN_FONT, 20, 0);
 	background = al_load_bitmap(MAIN_BACKGROUND.c_str());
+	warmupPic = al_load_bitmap(WARMUP_PIC.c_str());
+	benchPressPic = al_load_bitmap(BENCH_PRESS_PIC.c_str());
+	frontRaisePic = al_load_bitmap(FRONT_RAISE_PIC.c_str());
 }
 
 UI::~UI()
 {
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(warmupPic);
+	al_destroy_bitmap(benchPressPic);
+	al_destroy_bitmap(frontRaisePic);
 	al_destroy_font(headerFont);
 	al_destroy_font(infoFont);
 	al_destroy_display(display);
@@ -52,15 +58,16 @@ void UI::drawText(ALLEGRO_FONT *font, ALLEGRO_COLOR c, float x, float y, int fla
 	al_draw_text(font, c, x, y, flags, text.c_str());
 }
 
-void UI::draw(const DataCollector &collector)
+void UI::clear()
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_draw_bitmap(background, 0, 0, 0);
-	al_draw_bitmap(background, 350, 0, 0);
-	al_draw_bitmap(background, 0, 300, 0);
-	al_draw_bitmap(background, 350, 300, 0);
-	al_draw_bitmap(background, 700, 0, 0);
-	al_draw_bitmap(background, 700, 300, 0);
+}
+
+void UI::draw(const DataCollector &collector)
+{
+	clear();
+	drawBackground();
+	drawExercise(collector.currentExercise, collector.workoutStarted);
 	
 	drawText(headerFont, al_map_rgb(255, 0, 0), SCREEN_WIDTH / 2, 10.0, ALLEGRO_ALIGN_CENTRE, TITLE);
 	drawText(infoFont, al_map_rgb(255, 0, 0), 40.0, 60.0, 0, exercises[collector.currentExercise]);
@@ -71,7 +78,37 @@ void UI::draw(const DataCollector &collector)
 	ss << "Reps: " << collector.halfReps / 2;
 	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 130.0, 0, ss.str());
 	if(collector.showError > 0) {
-		drawText(infoFont, al_map_rgb(255, 0, 0), 10.0, 200.0, 0, "ERROR");
+		drawText(infoFont, al_map_rgb(255, 0, 0), 450.0, 120.0, 0, "ERROR");
 	}
 	al_flip_display();
+}
+
+void UI::drawBackground()
+{
+	al_draw_bitmap(background, 0, 0, 0);
+	al_draw_bitmap(background, 350, 0, 0);
+	al_draw_bitmap(background, 0, 300, 0);
+	al_draw_bitmap(background, 350, 300, 0);
+	al_draw_bitmap(background, 700, 0, 0);
+	al_draw_bitmap(background, 700, 300, 0);
+	al_draw_bitmap(background, 0, 600, 0);
+	al_draw_bitmap(background, 350, 600, 0);
+	al_draw_bitmap(background, 700, 600, 0);
+}
+
+void UI::drawExercise(int exerciseNum, bool started)
+{
+	if(!started) return;
+	if(exerciseNum == 0)
+	{
+		al_draw_bitmap(warmupPic, 100, 200, ALLEGRO_ALIGN_CENTRE);
+	}
+	else if(exerciseNum == 1)
+	{
+		al_draw_bitmap(benchPressPic, 90, 190, ALLEGRO_ALIGN_CENTRE);
+	}
+	else if(exerciseNum == 2)
+	{
+		al_draw_bitmap(frontRaisePic, 90, 190, ALLEGRO_ALIGN_CENTRE);
+	}
 }
