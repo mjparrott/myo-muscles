@@ -24,6 +24,8 @@ int main(int argc, char** argv)
     int calibrationRoll = 0;
     int lastYawPosition = 0;
     int lastYawDifference = 0;
+    int lastPitchPosition = 0;
+    int lastPitchDifference = 0 ;
 
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
@@ -164,6 +166,25 @@ int main(int argc, char** argv)
                 myo->vibrate(myo::Myo::vibrationShort);
                 collector.showError = 20;
             }
+
+            if (collector.workoutStarted && ((collector.yaw_w - lastYawPosition) * lastYawDifference) < 0 ) {
+                collector.halfReps++;
+                if (collector.halfReps == 16) {
+                    collector.sets++;
+                    if (collector.sets == 3) {
+                        std::cout << "Workout done! Great job!" << std::endl;
+                        collector.currentExercise++;
+                        collector.workoutStarted = false;   
+                        collector.sets = 0; 
+                    } else {
+                        std::cout << "8 reps done! On to set " << collector.sets + 1 << endl;
+                    }
+                    lastYawDifference = 0;
+                    collector.halfReps = 0;
+                }
+            }
+            lastYawDifference = collector.yaw_w - lastYawPosition != 0 ? (collector.yaw_w - lastYawPosition) : lastYawDifference;
+            lastYawPosition = collector.yaw_w;
         }
 		ALLEGRO_EVENT ev;
 		//mouse.getMouse(&ev);
