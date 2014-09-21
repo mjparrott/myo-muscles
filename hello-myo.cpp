@@ -137,7 +137,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (abs(collector.pitch_w - calibrationPitch) > 5 || abs(collector.roll_w - calibrationRoll) > 5)) {
+            } else if (collector.workoutStarted && (abs(collector.pitch_w - calibrationPitch) > 5 /*|| abs(collector.roll_w - calibrationRoll) > 5*/)) {
                 myo->vibrate(myo::Myo::vibrationShort);
                 collector.showError = 20;
 			}
@@ -162,7 +162,7 @@ int main(int argc, char** argv)
                     std::cout << "count : " << calibrationCounter << std::endl; 
                     calibrationCounter++;
                 }
-            } else if (collector.workoutStarted && (abs(collector.yaw_w - calibrationYaw) > 3 || abs(collector.roll_w - calibrationRoll) > 3)){
+            } else if (collector.workoutStarted && (abs(collector.yaw_w - calibrationYaw) > 3 || abs(collector.roll_w - calibrationRoll) > 5)){
                 myo->vibrate(myo::Myo::vibrationShort);
                 collector.showError = 20;
             }
