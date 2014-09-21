@@ -78,7 +78,7 @@ void UI::draw(const DataCollector &collector)
 	ss << "Reps: " << collector.halfReps / 2;
 	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 130.0, 0, ss.str());
 	if(collector.showError > 0) {
-		drawText(infoFont, al_map_rgb(255, 0, 0), 450.0, 120.0, 0, "ERROR");
+		drawText(infoFont, al_map_rgb(255, 0, 0), 450.0, 120.0, 0, "Fix your arm!");
 	}
 	al_flip_display();
 }
@@ -98,17 +98,17 @@ void UI::drawBackground()
 
 void UI::drawExercise(int exerciseNum, bool started)
 {
-	if(!started) return;
+	//if(!started) return;
 	if(exerciseNum == 0)
 	{
 		al_draw_bitmap(warmupPic, 100, 200, ALLEGRO_ALIGN_CENTRE);
 	}
 	else if(exerciseNum == 1)
 	{
-		al_draw_bitmap(benchPressPic, 90, 190, ALLEGRO_ALIGN_CENTRE);
+		al_draw_bitmap(benchPressPic, 80, 160, ALLEGRO_ALIGN_CENTRE);
 	}
 	else if(exerciseNum == 2)
 	{
-		al_draw_bitmap(frontRaisePic, 90, 190, ALLEGRO_ALIGN_CENTRE);
+		al_draw_bitmap(frontRaisePic, 70, 160, ALLEGRO_ALIGN_CENTRE);
 	}
 }
