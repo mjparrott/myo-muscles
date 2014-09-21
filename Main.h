@@ -5,7 +5,7 @@
 #include <string>
 
 const std::string TITLE = "Myo Muscles";
-std::string exercises[] = {"warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
+std::string exercises[] = {"warmup","warmup","warmup","bench","bench","bench","shoulder","shoulder","shoulder"};
 
 // Resources
 const std::string MAIN_FONT = "resources/fonts/font.ttf";
