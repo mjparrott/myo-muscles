@@ -70,15 +70,16 @@ void UI::draw(const DataCollector &collector)
 	drawExercise(collector.currentExercise, collector.workoutStarted);
 	
 	drawText(headerFont, al_map_rgb(255, 0, 0), SCREEN_WIDTH / 2, 10.0, ALLEGRO_ALIGN_CENTRE, TITLE);
-	drawText(infoFont, al_map_rgb(255, 0, 0), 40.0, 60.0, 0, exercises[collector.currentExercise]);
+	drawText(infoFont, al_map_rgb(255, 0, 0), 40.0, 40.0, 0, exercises[collector.currentExercise]);
 	stringstream ss;
 	ss << "Sets: " << collector.sets + 1;
 	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 100.0, 0, ss.str());
 	ss.str(""); ss.clear();
 	ss << "Reps: " << collector.halfReps / 2;
 	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 130.0, 0, ss.str());
+	printState(collector.workoutStarted, collector.calibrating);
 	if(collector.showError > 0) {
-		drawText(infoFont, al_map_rgb(255, 0, 0), 450.0, 120.0, 0, "Incorrect form!");
+		drawText(infoFont, al_map_rgb(255, 0, 0), 420.0, 120.0, 0, "Incorrect form!");
 	}
 	al_flip_display();
 }
@@ -110,5 +111,16 @@ void UI::drawExercise(int exerciseNum, bool started)
 	else if(exerciseNum == 2)
 	{
 		al_draw_bitmap(frontRaisePic, 70, 160, ALLEGRO_ALIGN_CENTRE);
+	}
+}
+
+void UI::printState(bool started, bool calibrated)
+{
+	if(started) {
+		drawText(infoFont, al_map_rgb(255, 0, 0), 50, 70, 0, "Working out");
+	} else if(calibrated) {
+		drawText(infoFont, al_map_rgb(255, 0, 0), 50, 70, 0, "Calibrating");
+	} else {
+		drawText(infoFont, al_map_rgb(255, 0, 0), 50, 70, 0, "Resting");
 	}
 }

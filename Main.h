@@ -5,10 +5,10 @@
 #include <string>
 
 const std::string TITLE = "Myo Muscles";
-const std::string exercises[] = {"warmup","bench","shoulder"};
+const std::string exercises[] = {"Warmup", "Bench", "Shoulder"};
 
 // Resources
-const std::string MAIN_FONT = "resources/fonts/font.ttf";
+const std::string MAIN_FONT = "resources/fonts/Lato/Lato-regular.ttf";
 const std::string MAIN_BACKGROUND = "resources/images/background.bmp";
 const std::string WARMUP_PIC = "resources/images/warmup.bmp";
 const std::string BENCH_PRESS_PIC = "resources/images/benchpress.bmp";

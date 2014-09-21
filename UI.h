@@ -31,6 +31,7 @@ private:
 	ALLEGRO_BITMAP *frontRaisePic;
 	
 	void drawBackground();
+	void printState(bool started, bool calibrating);
 };
 
 #endif
