@@ -101,9 +101,10 @@ int main(int argc, char** argv)
                 collector.halfReps++;
                 if (collector.halfReps == 16) {
                     collector.sets++;
-                    if (collector.sets == 3) {
+                    if (collector.sets == 2) {
                         std::cout << "Workout done! Great job!" << std::endl;
-                        collector.workoutStarted = false;    
+                        collector.workoutStarted = false;   
+                        collector.sets = 0; 
                     } else {
                         std::cout << "8 reps done! On to set " << collector.sets + 1 << endl;
                     }
