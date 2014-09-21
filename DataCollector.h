@@ -13,7 +13,7 @@ public:
 	// default behavior is to do nothing.
 	DataCollector()
 	: onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose(), workoutStarted(false), calibrating(false)
-		, halfReps(0), sets(0), xAccel(0), yAccel(0), zAccel(0), currentExercise(0)
+		, halfReps(0), sets(0), xAccel(0), yAccel(0), zAccel(0), currentExercise(0), showError(0)
 	{
 	}
 

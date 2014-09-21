@@ -65,7 +65,7 @@ void UI::draw(const DataCollector &collector)
 	drawText(headerFont, al_map_rgb(255, 0, 0), SCREEN_WIDTH / 2, 10.0, ALLEGRO_ALIGN_CENTRE, TITLE);
 	drawText(infoFont, al_map_rgb(255, 0, 0), 40.0, 60.0, 0, exercises[collector.currentExercise]);
 	stringstream ss;
-	ss << "Sets: " << collector.sets;
+	ss << "Sets: " << collector.sets + 1;
 	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 100.0, 0, ss.str());
 	ss.str(""); ss.clear();
 	ss << "Reps: " << collector.halfReps / 2;
