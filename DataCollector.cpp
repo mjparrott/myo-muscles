@@ -117,5 +117,9 @@ void DataCollector::update()
 
 void DataCollector::nextExercise()
 {
-	currentExercise = (currentExercise + 1) == EXERCISE_COUNT ? 0 : currentExercise++;
+	if (currentExercise + 1 == EXERCISE_COUNT) {
+		currentExercise = 0;
+	} else {
+		currentExercise++;
+	}
 }
