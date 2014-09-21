@@ -78,7 +78,7 @@ void UI::draw(const DataCollector &collector)
 	ss << "Reps: " << collector.halfReps / 2;
 	drawText(infoFont, al_map_rgb(255, 0, 0), 50.0, 130.0, 0, ss.str());
 	if(collector.showError > 0) {
-		drawText(infoFont, al_map_rgb(255, 0, 0), 450.0, 120.0, 0, "Fix your arm!");
+		drawText(infoFont, al_map_rgb(255, 0, 0), 450.0, 120.0, 0, "Incorrect form!");
 	}
 	al_flip_display();
 }
