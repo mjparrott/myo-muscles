@@ -55,11 +55,11 @@ void DataCollector::onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
 		std::cout << "Ending workout" << std::endl;
 		workoutStarted = false;
 		myo->vibrate(myo::Myo::vibrationMedium);
-		currentExercise++;
 		calibrating = false;
 		sets++;
 		if(sets == 3){
 			sets = 0;
+			currentExercise++;
 		}
 		halfReps = 0;
 	} else {
