@@ -8,7 +8,7 @@ UI.o: UI.cpp UI.h Main.h
 	g++ UI.cpp -c -Iinclude
 
 Mouse.o: Mouse.cpp Mouse.h Main.h
-	g++ Mouse.cpp -c
+	g++ Mouse.cpp -c -Iinclude 
 
 DataCollector.o: DataCollector.cpp DataCollector.h Main.h
 	g++ DataCollector.cpp -c -Iinclude

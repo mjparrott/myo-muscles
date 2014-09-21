@@ -64,6 +64,7 @@ void DataCollector::onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
 		halfReps = 0;
 	} else if (pose == myo::Pose::waveOut && !workoutStarted) {
 		nextExercise();
+		sets = 0;
 	}
 }
 
