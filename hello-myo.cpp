@@ -101,8 +101,9 @@ int main(int argc, char** argv)
                 collector.halfReps++;
                 if (collector.halfReps == 16) {
                     collector.sets++;
-                    if (collector.sets == 2) {
+                    if (collector.sets == 3) {
                         std::cout << "Workout done! Great job!" << std::endl;
+                        collector.currentExercise++;
                         collector.workoutStarted = false;   
                         collector.sets = 0; 
                     } else {
@@ -140,7 +141,29 @@ int main(int argc, char** argv)
 			}
         }
         else if(collector.currentExercise == 2){
-            //SHOULDERS
+            std::cout << collector.calibrating << std::endl;
+            std::cout << collector.currentExercise << std::endl;
+            if (collector.calibrating) {
+                if (calibrationCounter == 0) {
+                    calibrationPitch = collector.pitch_w;
+                    calibrationRoll = collector.roll_w;
+                    calibrationYaw = collector.yaw_w;
+                    calibrationCounter++;
+                    std::cout<< "THE CALIBRATION TIMER IS AT: " + calibrationCounter;
+                } else if (calibrationYaw == collector.yaw_w && calibrationCounter == 5) {
+                    std::cout << "Calibration done. Begin workout." << std::endl;
+                    myo->vibrate(myo::Myo::vibrationMedium);
+                    collector.workoutStarted = true;
+                    collector.calibrating = false;
+                    calibrationCounter = 0;
+                } else if (calibrationYaw == collector.yaw_w && calibrationCounter < 5) {
+                    std::cout << "count : " << calibrationCounter << std::endl; 
+                    calibrationCounter++;
+                }
+            } else if (collector.workoutStarted && abs(collector.yaw_w - calibrationYaw) > 3){
+                myo->vibrate(myo::Myo::vibrationShort);
+                collector.showError = 20;
+            }
         }
 		ALLEGRO_EVENT ev;
 		//mouse.getMouse(&ev);
